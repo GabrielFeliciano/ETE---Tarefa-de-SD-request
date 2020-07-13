@@ -1,0 +1,10 @@
+#form {
+    & > div {
+        padding: .5rem;
+    }
+
+    select {
+        width: 30vw;
+        font-size: 1.2em;
+    }
+}

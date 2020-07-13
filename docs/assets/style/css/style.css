@@ -1,0 +1,22 @@
+body {
+  font-size: 1.2em;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: bisque;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+#form > div {
+  padding: .5rem;
+}
+#form select {
+  width: 30vw;
+  font-size: 1.2em;
+}
+
+button {
+  padding: 1rem;
+}
