@@ -5,31 +5,39 @@ const DateFabricSelect = $('#date-fabric');
 MarcSelect.change(e => {
     DateFabricSelect.empty();
     ModelSelect.empty();
-    getModelsAndDate(MarcSelect.val());
+    getModelsAndManufacturingDate(MarcSelect.val());
 })
 
-function getMarcCars () {
+/**
+ * Request to FIPE's API easier using only XMLHttpRequest
+ * @param {string} link 
+ * @param {function} callbackWhenLoaded 
+ * @returns {object} [returns the XMLHttpRequest object]
+ */
+function requester (link, callbackWhenLoaded) {
     const Rq = new XMLHttpRequest();
-    Rq.open("GET", 'https://parallelum.com.br/fipe/api/v1/carros/marcas');
-    Rq.onload = function () {
-        const response = JSON.parse(Rq.responseText);
-        console.log(response)
+    Rq.open("GET", link);
+    Rq.onload = callbackWhenLoaded.bind(Rq);
+    Rq.send();
+    return Rq;
+}
+
+function getCarBrands () {
+    requester ('http://parallelum.com.br/fipe/api/v1/carros/marcas', function () {
+        const response = JSON.parse(this.responseText);
         for (let marc of response) {
             const option = $('<option></option>');
             option.text(marc.nome);
             option.attr('value', marc.codigo);
-            MarcSelect.append(option)
+            MarcSelect.append(option);
         }
-    };
-    Rq.send();
+        getModelsAndManufacturingDate(MarcSelect.val());
+    });
 }
 
-function getModelsAndDate (code) {
-    const Rq = new XMLHttpRequest();
-    Rq.open("GET", `https://parallelum.com.br/fipe/api/v1/carros/marcas/${code}/modelos`);
-    Rq.onload = function () {
-        const response = JSON.parse(Rq.responseText);
-        console.log(response)
+function getModelsAndManufacturingDate (code) {
+    requester (`http://parallelum.com.br/fipe/api/v1/carros/marcas/${code}/modelos`, function () {
+        const response = JSON.parse(this.responseText);
         for (let marc of response.modelos) {
             const option = $('<option></option>');
             option.text(marc.nome);
@@ -42,21 +50,23 @@ function getModelsAndDate (code) {
             option.attr('value', date.codigo);
             DateFabricSelect.append(option)
         }
-    };
-    Rq.send();
+    })
 }
 
-$(document).ready(function () {
-    getMarcCars();
-});
+$(document).ready(getCarBrands);
 
 $('#get-price').click(e => {
     const Rq = new XMLHttpRequest();
-    Rq.open("GET", `https://parallelum.com.br/fipe/api/v1/carros/marcas/${MarcSelect.val()}/modelos/${ModelSelect.val()}/anos/${DateFabricSelect.val()}`);
+    const link = `http://parallelum.com.br/fipe/api/v1/carros/marcas/${MarcSelect.val()}/modelos/${ModelSelect.val()}/anos/${DateFabricSelect.val()}`
+    console.log(link);
+    Rq.open("GET", link);
     Rq.onload = function () {
-        const response = JSON.parse(Rq.responseText);
-        console.log(response);
-        $('#price').text(response.Valor);
+        try {
+            const response = JSON.parse(Rq.responseText);
+            $('#price').text(response.Valor);    
+        } catch (err) {
+            $('#price').text("Preço não encontrado");
+        }
     };
     Rq.send();
 })

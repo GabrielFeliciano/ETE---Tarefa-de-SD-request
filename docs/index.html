@@ -21,22 +21,26 @@
     <header>
     </header>
     <main>
-        <section id="form">
-            <div>
-                <label for="car-marc">Marca do carro</label>
-                <select name="car-marc" id="car-marc"></select>
+        <section class="form__container">
+            <div class="form">
+                <div>
+                    <label for="car-marc">Marca do carro</label>
+                    <select name="car-marc" id="car-marc"></select>
+                </div>
+                <div>
+                    <label for="car-model">Modelo do carro</label>
+                    <select name="car-model" id="car-model"></select>
+                </div>
+                <div>
+                    <label for="date-fabric">Ano de fabricação</label>
+                    <select name="date-fabric" id="date-fabric"></select>
+                </div>
             </div>
-            <div>
-                <label for="car-model">Modelo do carro</label>
-                <select name="car-model" id="car-model"></select>
-            </div>
-            <div>
-                <label for="date-fabric">Ano de fabricação</label>
-                <select name="date-fabric" id="date-fabric"></select>
+            <div class="row" id="answer">
+                <button id="get-price">Procurar preço</button>
+                <mark id="price"></mark>
             </div>
         </section>
-        <button id="get-price">Procurar preço</button>
-        <mark id="price"></mark>
     </main>
     <footer></footer>
     <script src="./assets/js/script.js"></script>
