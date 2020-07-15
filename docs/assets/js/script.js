@@ -1,7 +1,7 @@
 const MarcSelect = $('#car-marc');
 const ModelSelect = $('#car-model');
 const DateFabricSelect = $('#date-fabric');
-"https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/5940/anos/2014-3"
+
 MarcSelect.change(e => {
     DateFabricSelect.empty();
     ModelSelect.empty();
