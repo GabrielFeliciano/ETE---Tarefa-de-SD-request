@@ -66,9 +66,9 @@ $('#get-price').click(e => {
     const link = linkPart1 + linkPart2;
     
     $('#price').text("Procurando preço...");
+    console.log(link);
     requester (link, response => {
         try {
-            const response = JSON.parse(Rq.responseText);
             $('#price').text(response.Valor);    
         } catch (err) {
             $('#price').text("Preço não encontrado");
