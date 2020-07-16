@@ -21,14 +21,19 @@ MarcSelect.change(e => {
 function requester (link, callbackWhenLoaded) {
     const Rq = new XMLHttpRequest();
     Rq.open("GET", link);
-    callbackWhenLoaded ? Rq.onload = callbackWhenLoaded.bind(Rq) : null;
+    callbackWhenLoaded ? Rq.onload = function () {
+        try {
+            callbackWhenLoaded(JSON.parse(Rq.responseText), Rq);
+        } catch (err) {
+            callbackWhenLoaded(null, Rq);
+        }
+    } : null;
     Rq.send();
     return Rq;
 }
 
 function getCarBrands () {
-    requester ('https://parallelum.com.br/fipe/api/v1/carros/marcas', function () {
-        const response = JSON.parse(this.responseText);
+    requester ('https://parallelum.com.br/fipe/api/v1/carros/marcas', function (response) {
         for (let brand of response) {
             const option = $('<option></option>');
             option.text(brand.nome);
@@ -40,8 +45,7 @@ function getCarBrands () {
 }
 
 function getModelsAndManufacturingDate (code) {
-    requester (`https://parallelum.com.br/fipe/api/v1/carros/marcas/${code}/modelos`, function () {
-        const response = JSON.parse(this.responseText);
+    requester (`https://parallelum.com.br/fipe/api/v1/carros/marcas/${code}/modelos`, function (response) {
         for (let modelObj of response.modelos) {
             const option = $('<option></option>');
             option.text(modelObj.nome);
@@ -67,11 +71,6 @@ $('#get-price').click(e => {
     
     $('#price').text("Procurando preço...");
     console.log(link);
-    requester (link, response => {
-        try {
-            $('#price').text(response.Valor);    
-        } catch (err) {
-            $('#price').text("Preço não encontrado");
-        }
-    })
+    requester (link, response => 
+    response ? $('#price').text(response.Valor) : $('#price').text("Preço não encontrado"));
 })
