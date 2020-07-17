@@ -1,7 +1,3 @@
-$.prototype.create = function (tag) {
-    return this.constructor(`<${tag}></${tag}>`)
-}
-
 const MarcSelect = $('#car-marc');
 const ModelSelect = $('#car-model');
 const DateFabricSelect = $('#date-fabric');
@@ -69,8 +65,14 @@ $('#get-price').click(e => {
 
     const link = linkPart1 + linkPart2;
     
-    $('#price').text("Procurando preço...");
+    $('#price-display').empty();
+    $('#price-display').text("Procurando preço...");
     console.log(link);
-    requester (link, response => 
-    response ? $('#price').text(response.Valor) : $('#price').text("Preço não encontrado"));
+    requester (link, response => {
+            if (response) {
+                $('#price-display').html(`O preço do carro é de <mark>${response.Valor}</mark>`);
+            } else {
+                $('#price-display').text("Preço não encontrado");
+            }
+    })
 })

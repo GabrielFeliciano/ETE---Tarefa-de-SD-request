@@ -3,6 +3,11 @@
   align-items: center;
 }
 
+p.underrated {
+  color: #aaaaaa;
+  font-style: italic;
+}
+
 body {
   display: flex;
   flex-flow: column;
@@ -14,15 +19,56 @@ body {
   min-height: 100vh;
 }
 body header, body main, body footer {
+  box-sizing: border-box;
   width: 100%;
+  padding: 0 10%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
 }
 
+header h1 {
+  padding: .2em;
+  font-size: 5em;
+}
+@media screen and (max-width: 768px) {
+  header h1 {
+    font-size: 3em;
+  }
+}
+@media screen and (max-width: 500px) {
+  header h1 {
+    font-size: 2em;
+  }
+}
+header h2 {
+  font-size: 1.5em;
+}
+@media screen and (max-width: 1000px) {
+  header h2 {
+    font-size: 1.25em;
+  }
+}
+@media screen and (max-width: 768px) {
+  header h2 {
+    font-size: 1em;
+  }
+}
+@media screen and (max-width: 500px) {
+  header h2 {
+    font-size: .8em;
+  }
+}
+
+main {
+  background-color: #ffffff30;
+  margin: 2rem 0;
+  padding: 2rem !important;
+}
+
 .form__container {
-  width: 80%;
+  width: 100%;
 }
 .form__container #answer {
   width: 100%;
@@ -52,7 +98,19 @@ body header, body main, body footer {
 button {
   padding: 1rem;
 }
+@media screen and (max-width: 500px) {
+  button {
+    padding: .5rem;
+  }
+}
 
-mark {
+#price-display {
+  background-color: transparent;
+  text-align: center;
   font-size: 2em;
+}
+@media screen and (max-width: 500px) {
+  #price-display {
+    font-size: 1em;
+  }
 }

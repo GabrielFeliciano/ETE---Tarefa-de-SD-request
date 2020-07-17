@@ -9,7 +9,9 @@ body {
   min-height: 100vh;
 }
 body header, body main, body footer {
+  box-sizing: border-box;
   width: 100%;
+  padding: 0 10%;
   display: flex;
   flex-flow: column;
   justify-content: center;
